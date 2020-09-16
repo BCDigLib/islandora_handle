@@ -47,6 +47,7 @@ class IslandoraHandleRestHandler extends IslandoraHandleHandleHandler {
         ),
       )),
       'method' => 'PUT',
+      'context' => $this->streamContext()
     ));
     $handle_response_code = $this->mapHandleResponseCodes($response);
     if ($handle_response_code && $handle_response_code['code'] === 1) {
@@ -91,6 +92,7 @@ class IslandoraHandleRestHandler extends IslandoraHandleHandleHandler {
         'Authorization' => $this->authorizationHeader,
       ),
       'method' => 'GET',
+      'context' => $this->streamContext()
     ));
     $handle_response_code = $this->mapHandleResponseCodes($response);
     if ($handle_response_code && $handle_response_code['code'] === 1) {
@@ -153,6 +155,7 @@ class IslandoraHandleRestHandler extends IslandoraHandleHandleHandler {
           'type' => 'URL',
           'data' => $target,
         ),
+      'context' => $this->streamContext()
       )),
     ));
     $handle_response_code = $this->mapHandleResponseCodes($response);
@@ -191,6 +194,7 @@ class IslandoraHandleRestHandler extends IslandoraHandleHandleHandler {
         'Authorization' => $this->authorizationHeader,
       ),
       'method' => 'DELETE',
+      'context' => $this->streamContext()
     ));
     $handle_response_code = $this->mapHandleResponseCodes($response);
     if ($handle_response_code && $handle_response_code['code'] === 1) {
@@ -272,4 +276,11 @@ class IslandoraHandleRestHandler extends IslandoraHandleHandleHandler {
     return FALSE;
   }
 
+  protected function streamContext() {
+    return stream_context_create([ 'ssl' => [
+      'verify_peer'       => false,
+      'verify_peer_name'  => false
+    ]]);
+  }
 }
+
